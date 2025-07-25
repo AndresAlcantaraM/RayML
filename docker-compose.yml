@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   ray_service:
     build: ./ray_parallel
@@ -8,7 +6,7 @@ services:
       - "8265:8265"     # Ray Dashboard
       - "8000:8000"     # Ray Serve API
     volumes:
-      - ./ray_parallel:/app
+      - ./ray_parallel:/app:z
       - ray_tmp:/tmp/ray
     shm_size: '2gb'
     networks:
@@ -37,7 +35,7 @@ services:
       - RAY_SERVICE_URL=http://ray_service:8000
       - PYTHONUNBUFFERED=1
     volumes:
-      - ./api:/app
+      - ./api:/app:z
     restart: on-failure
 
   client:
