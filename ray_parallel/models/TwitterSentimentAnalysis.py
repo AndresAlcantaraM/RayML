@@ -101,5 +101,46 @@ class TwitterSentimentAlgorithm:
                 "num_periods": len(fixed_dates)
             }
         }
+
+    def get_ticker_prices(self, ticker: str, start_date: str, end_date: str):
+        prices_ref = download_prices_remote.remote([ticker], start_date, end_date)
+        prices_df = ray.get(prices_ref)
+        
+        # Si hay múltiples columnas (OHLCV), extraer solo el precio de cierre ajustado
+        if 'Adj Close' in prices_df.columns:
+            if len(prices_df.columns.levels) > 1:  # MultiIndex columns
+                price_series = prices_df['Adj Close'][ticker]
+            else:
+                price_series = prices_df['Adj Close']
+        else:
+            # Fallback to Close if Adj Close not available
+            if 'Close' in prices_df.columns:
+                if len(prices_df.columns.levels) > 1:
+                    price_series = prices_df['Close'][ticker]
+                else:
+                    price_series = prices_df['Close']
+            else:
+                raise ValueError(f"No se encontraron datos de precios para {ticker}")
+        
+        # Calcular retornos logarítmicos
+        returns = np.log(price_series).diff().dropna()
+        
+        # Crear DataFrame con precios y retornos
+        result_df = pd.DataFrame({
+            'price': price_series,
+            'return': returns
+        }).dropna()
+        
+        return {
+            "ticker": ticker,
+            "period": f"{start_date} - {end_date}",
+            "prices": result_df.reset_index().to_dict(orient="records"),
+            "summary": {
+                "total_return": float((price_series.iloc[-1] / price_series.iloc[0] - 1) * 100),
+                "volatility": float(returns.std() * np.sqrt(252) * 100),  # Anualizada
+                "avg_daily_return": float(returns.mean() * 100),
+                "num_observations": len(result_df)
+            }
+        }
     
 

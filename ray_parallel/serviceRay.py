@@ -64,6 +64,25 @@ class CombinedAnalysisServer:
             logger.error(f"Error en estrategia GARCH: {str(e)}")
             return {"status": "error", "message": str(e)}
 
+    @app.post("/analyze/ticker-prices")
+    async def get_ticker_prices(self, request: Request):
+        try:
+            body = await request.json()
+            ticker = body.get("ticker")
+            start_date = body.get("start_date")
+            end_date = body.get("end_date")
+
+            if not ticker or not start_date or not end_date:
+                return {"status": "error", "message": "ticker, start_date y end_date son requeridos"}
+
+            logger.info(f"Obteniendo precios para ticker: {ticker}, periodo: {start_date} - {end_date}")
+            result = self.sentiment_model.get_ticker_prices(ticker, start_date, end_date)
+            return result
+
+        except Exception as e:
+            logger.error(f"Error obteniendo precios del ticker: {str(e)}")
+            return {"status": "error", "message": str(e)}
+
     @app.get("/health")
     async def health(self):
         return {"status": "healthy"}

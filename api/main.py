@@ -24,6 +24,11 @@ class AnalyzeRequest(BaseModel):
     start_date: str
     end_date: str
 
+class TickerPricesRequest(BaseModel):
+    ticker: str
+    start_date: str
+    end_date: str
+
 @app.post("/api/analyze/sentiment")
 async def analyze_sentiment(data: AnalyzeRequest):
     try:
@@ -60,6 +65,25 @@ async def analyze_garch(data: AnalyzeRequest):
         raise HTTPException(status_code=502, detail=f"Servicio GARCH no disponible: {str(e)}")
     except Exception as e:
         logger.error(f"Error inesperado (GARCH): {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
+
+@app.post("/api/analyze/ticker-prices") 
+async def get_ticker_prices(data: TickerPricesRequest):
+    try:
+        logger.info(f"Solicitando precios para ticker: {data.ticker}, periodo: {data.start_date} - {data.end_date}")
+        response = requests.post(
+            f"{RAY_SERVE_URL}/analyze/ticker-prices",
+            json={"ticker": data.ticker, "start_date": data.start_date, "end_date": data.end_date},
+            timeout=30
+        )
+        response.raise_for_status()
+        return response.json()
+        
+    except requests.exceptions.RequestException as e:
+        logger.error(f"Error en Ray Serve (ticker prices): {str(e)}")
+        raise HTTPException(status_code=502, detail=f"Servicio de precios no disponible: {str(e)}")
+    except Exception as e:
+        logger.error(f"Error inesperado (ticker prices): {str(e)}")
         raise HTTPException(status_code=500, detail=f"Error interno: {str(e)}")
 
 @app.get("/")

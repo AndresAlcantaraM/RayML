@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
-import { analyzeSentiment, checkHealth, getTopStocksByMonth } from '../api/analysisService';
+import { useState } from 'react';
+import { analyzeSentiment, checkHealth } from '../api/analysisService';
 import DateRangePicker from '../components/DateRangePicker';
 import PortfolioTable from '../components/PortfolioTable';
 import TopStocksTable from '../components/TopStocksTable'; 
 import MetadataCard from '../components/MetadataCard';
+import PortfolioComparison from '../components/PortfolioComparison';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './stylesAnalysis.css';
@@ -15,6 +16,7 @@ const SentimentAnalysis = () => {
   const [loading, setLoading] = useState(false);
   const [apiStatus, setApiStatus] = useState(null);
   const [activeTab, setActiveTab] = useState('portfolio');
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,6 +36,9 @@ const SentimentAnalysis = () => {
 
       const cleanStartDate = new Date(startDate).toISOString().split('T')[0];
       const cleanEndDate = new Date(endDate).toISOString().split('T')[0];
+
+      // Actualizar el rango de fechas para el componente de comparación
+      setDateRange({ startDate: cleanStartDate, endDate: cleanEndDate });
 
       const data = await analyzeSentiment(cleanStartDate, cleanEndDate);
       setResults(data);
@@ -131,6 +136,12 @@ const SentimentAnalysis = () => {
               >
                 Top 5 Acciones
               </button>
+              <button
+                className={`tab-button ${activeTab === 'comparison' ? 'active' : ''}`}
+                onClick={() => setActiveTab('comparison')}
+              >
+                Comparación
+              </button>
             </div>
 
             <div className="tab-content">
@@ -149,6 +160,18 @@ const SentimentAnalysis = () => {
                     Top 5 Acciones por Engagement Mensual
                   </h2>
                   <TopStocksTable data={results.topStocks} />
+                </div>
+              )}
+
+              {activeTab === 'comparison' && (
+                <div className="results-card">
+                  <h2 className="analysis-subtitle">
+                    Comparación con Ticker Individual
+                  </h2>
+                  <PortfolioComparison 
+                    sentimentData={results} 
+                    dateRange={dateRange}
+                  />
                 </div>
               )}
             </div>

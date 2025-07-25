@@ -50,6 +50,34 @@ export const analyzeGARCH = async (startDate, endDate) => {
   }
 };
 
+// Obtener precios de un ticker específico
+export const getTickerPrices = async (ticker, startDate, endDate) => {
+  try {
+    const response = await axios.post(
+        `${API_BASE_URL}/api/analyze/ticker-prices`, 
+        {
+            ticker: ticker.toUpperCase(),
+            start_date: startDate,
+            end_date: endDate
+        },
+        {
+            timeout: 60000
+        }
+    );
+
+    console.log("Respuesta Ticker Prices:", response.data);
+
+    return {
+      ticker: response.data.ticker,
+      period: response.data.period,
+      prices: response.data.prices || [],
+      summary: response.data.summary || {}
+    };
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Error al obtener precios del ticker');
+  }
+};
+
 // Chequeo de salud del backend
 export const checkHealth = async () => {
   try {
@@ -57,6 +85,7 @@ export const checkHealth = async () => {
     console.log(response)
     return response.data;
   } catch (error) {
+    console.log("Error en health check:", error);
     return { api: 'unreachable', ray_service: 'unreachable' };
   }
 };

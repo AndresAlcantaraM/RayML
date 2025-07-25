@@ -2,17 +2,19 @@
   min-height: 100vh;
   background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
   padding: 2rem 1rem;
+  color: #1f2937; /* Forzar color de texto oscuro */
 }
 
 .analysis-container {
   max-width: 56rem;
   margin: 0 auto;
+  color: #1f2937; /* Forzar color de texto oscuro */
 }
 
 .analysis-title {
   font-size: 2.25rem;
   font-weight: 800;
-  color: #1f2937;
+  color: #1f2937 !important; /* Usar !important para sobrescribir estilos globales */
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -23,6 +25,11 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   padding: 1.5rem;
   margin-bottom: 2rem;
+  color: #1f2937 !important; /* Forzar color de texto oscuro */
+}
+
+.analysis-card * {
+  color: inherit !important; /* Asegurar que todos los elementos hijos hereden el color oscuro */
 }
 
 .analysis-header {
@@ -35,7 +42,7 @@
 .analysis-subtitle {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
+  color: #1f2937 !important; /* Forzar color oscuro */
 }
 
 .status-badge {
@@ -70,12 +77,13 @@
 
 .submit-btn-primary {
   background-color: #4f46e5;
-  color: white;
+  color: white !important; /* Asegurar que el texto del botón sea blanco */
   border: none;
 }
 
 .submit-btn-primary:hover {
   background-color: #4338ca;
+  color: white !important; /* Mantener el texto blanco en hover */
 }
 
 .submit-btn-primary:disabled {
@@ -93,6 +101,11 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+  color: #1f2937 !important; /* Forzar color de texto oscuro */
+}
+
+.results-card * {
+  color: inherit !important; /* Heredar el color oscuro para todos los elementos hijos */
 }
 
 .loading-overlay {
@@ -195,4 +208,57 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Estilos adicionales para GARCH Strategy Page */
+.analysis-description {
+  text-align: center;
+  color: #6b7280 !important; /* Usar !important para sobrescribir estilos globales */
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.analysis-form {
+  margin-top: 1.5rem;
+}
+
+.loading-spinner-inline {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid #ffffff;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 0.5rem;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.results-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1f2937 !important; /* Usar !important para sobrescribir estilos globales */
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.submit-btn-primary:disabled {
+  background-color: #9ca3af;
 }
