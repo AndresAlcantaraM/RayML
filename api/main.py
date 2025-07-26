@@ -36,7 +36,7 @@ async def analyze_sentiment(data: AnalyzeRequest):
         response = requests.post(
             f"{RAY_SERVE_URL}/analyze/sentiment",
             json={"start_date": data.start_date, "end_date": data.end_date},
-            timeout=30
+            timeout=45
         )
         response.raise_for_status()
         return response.json()
