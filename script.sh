@@ -30,10 +30,8 @@ cd RayML/
 # Crear archivo .env
 cat > .env << EOF
 AWS_DEFAULT_REGION=us-east-1
-AWS_PUBLIC_IP=$PUBLIC_IP
-VITE_API_URL=http://$PUBLIC_IP:8001
+AWS_PUBLIC_IP=$AWS_PUBLIC_IP
+VITE_API_URL=http://$AWS_PUBLIC_IP:8001
 EOF
-
-cd $HOME/RayML
 
 sudo docker-compose up -d
