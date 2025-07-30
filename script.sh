@@ -25,7 +25,7 @@ PUBLIC_IP=$(curl http://checkip.amazonaws.com)
 export AWS_PUBLIC_IP=$PUBLIC_IP
 
 git clone https://github.com/AndresAlcantaraM/RayML
-cd RayML
+cd RayML/frontend
 
 # Crear archivo .env
 cat > .env << EOF
@@ -33,5 +33,7 @@ AWS_DEFAULT_REGION=us-east-1
 AWS_PUBLIC_IP=$PUBLIC_IP
 VITE_API_URL=http://$PUBLIC_IP:8001
 EOF
+
+cd $HOME/RayML
 
 sudo docker-compose up -d
