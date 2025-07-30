@@ -58,6 +58,15 @@ class CombinedAnalysisServer:
 
             logger.info(f"Ejecutando GARCH Strategy: {start_date} - {end_date}")
             result = self.garch_model.run_strategy(start_date, end_date)
+            if not result or not isinstance(result, dict):
+                logger.error("GARCH result es inválido o incompleto: %s", result)
+                return {
+                    "status": "error",
+                    "message": "No se pudo calcular la estrategia GARCH",
+                    "daily_signals": [],
+                    "strategy_returns": [],
+                    "cumulative_return": 0
+                }
             return result
 
         except Exception as e:

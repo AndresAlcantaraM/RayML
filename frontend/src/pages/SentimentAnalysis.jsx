@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { analyzeSentiment, checkHealth } from '../api/analysisService';
+import { analyzeSentiment } from '../api/analysisService';
 import DateRangePicker from '../components/DateRangePicker';
 import PortfolioTable from '../components/PortfolioTable';
 import TopStocksTable from '../components/TopStocksTable'; 
 import MetadataCard from '../components/MetadataCard';
 import PortfolioComparison from '../components/PortfolioComparison';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './stylesAnalysis.css';
 
@@ -14,7 +13,6 @@ const SentimentAnalysis = () => {
   const [endDate, setEndDate] = useState(null);
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [apiStatus, setApiStatus] = useState(null);
   const [activeTab, setActiveTab] = useState('portfolio');
   const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
 
@@ -51,16 +49,6 @@ const SentimentAnalysis = () => {
     }
   };
 
-  const checkServiceHealth = async () => {
-    const status = await checkHealth();
-    setApiStatus(status);
-    if (status.api === 'healthy' && status.ray_service === 'healthy') {
-      toast.success('Todos los servicios están operativos');
-    } else {
-      toast.warning('Algunos servicios no están disponibles');
-    }
-  };
-
   return (
     <div className="analysis-page">
       <div className="analysis-container">
@@ -73,27 +61,7 @@ const SentimentAnalysis = () => {
             <h2 className="analysis-subtitle">
               Configurar Análisis
             </h2>
-            <button
-              onClick={checkServiceHealth}
-              className="status-badge"
-            >
-              Verificar Estado
-            </button>
           </div>
-
-          {apiStatus && (
-            <div className="mb-6 p-4 bg-gray-100 rounded-md">
-              <h3 className="font-medium mb-2">Estado de los servicios:</h3>
-              <ul className="space-y-1">
-                <li>API: <span className={apiStatus.api === 'healthy' ? 'status-healthy' : 'status-unhealthy'}>
-                  {apiStatus.api}
-                </span></li>
-                <li>Ray Service: <span className={apiStatus.ray_service === 'healthy' ? 'status-healthy' : 'status-unhealthy'}>
-                  {apiStatus.ray_service || 'unknown'}
-                </span></li>
-              </ul>
-            </div>
-          )}
 
           <form onSubmit={handleSubmit} className="analysis-form">
             <DateRangePicker
@@ -180,7 +148,6 @@ const SentimentAnalysis = () => {
           </div>
         )}
       </div>
-      <ToastContainer position="bottom-right" autoClose={5000} />
     </div>
   );
 };

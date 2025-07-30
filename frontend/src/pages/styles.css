@@ -37,6 +37,18 @@ body {
   height: 100%;
 }
 
+.nav-health {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #1f2937; 
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  margin: 0;
+  background: linear-gradient(135deg, #1f2937 0%, #4f46e5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -89,7 +101,6 @@ body {
   padding: 1rem 2rem;
   font-size: 1rem;
   border-radius: 1rem;
-  margin-right: 1rem;
 }
 
 .btn-primary::before {
@@ -451,4 +462,26 @@ body {
 
 .feature-icon:hover {
   animation: pulse 0.5s ease;
+}
+
+.stacked-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1.2;
+  color: white;
+  gap: 1rem;
+}
+
+.title-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.title-right {
+  align-self: flex-end;
+  font-size: 2.5rem;
 }
