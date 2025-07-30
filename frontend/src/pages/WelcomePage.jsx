@@ -1,7 +1,20 @@
 import { Link } from 'react-router';
+import { checkHealth } from '../api/analysisService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './styles.css';
 
 const WelcomePage = () => {
+
+  const checkServiceHealth = async () => {
+    const status = await checkHealth();
+    if (status.api === 'healthy' && status.ray_service === 'healthy') {
+      toast.success('Todos los servicios están operativos');
+    } else {
+      toast.warning('Algunos servicios no están disponibles');
+    }
+  };
+
   const features = [
     {
       name: 'Procesamiento Paralelo',
@@ -29,12 +42,12 @@ const WelcomePage = () => {
             <span>RayML Analytics</span>
           </div>
           <div className="nav-actions">
-            <Link
-              to="/sentiment"
-              className="btn-primary"
+            <button
+              onClick={checkServiceHealth}
+              className="nav-health"
             >
-              Análisis de Sentimiento →
-            </Link>
+              ✅ Verificar Estado
+            </button>
           </div>
         </div>
       </nav>
@@ -42,7 +55,9 @@ const WelcomePage = () => {
       <section className="hero">
         <div className="hero-content">
           <h1 className="hero-title">
-            Análisis de Sentimiento en <span className="hero-highlight">Tiempo Real</span>
+            Análisis de Sentimiento en Twitter<br />
+            Estrategia GARCH Intradía<br />
+            <span className="hero-highlight center-line">EN TIEMPO REAL</span>
           </h1>
           <p className="hero-description">
             Potenciado por Machine Learning paralelizado con Ray, descubre insights accionables
@@ -53,7 +68,7 @@ const WelcomePage = () => {
               to="/sentiment"
               className="btn-primary large"
             >
-              🚀 Comenzar Análisis
+              🚀 Análisis de Sentimiento
             </Link>
             <Link to="/garch" className="btn-primary large">
               📈 Estrategia GARCH
@@ -90,6 +105,7 @@ const WelcomePage = () => {
           </p>
         </div>
       </footer>
+      <ToastContainer position="bottom-right" autoClose={5000} />
     </div>
   );
 };

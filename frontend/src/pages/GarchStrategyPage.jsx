@@ -52,6 +52,10 @@ const GarchStrategyPage = () => {
           <p className="analysis-description">
             Analiza estrategias de trading intradía utilizando modelos GARCH para la predicción de volatilidad
           </p>
+          <p className="date-warning">
+            Selecciona un rango de fechas entre <strong>2021-09-29</strong> y <strong>2023-09-18</strong> (inclusive).
+            El rango debe cubrir al menos <strong>6 meses completos</strong> para que el modelo pueda generar señales válidas.
+          </p>
           
           <div className="analysis-form">
             <DateRangePicker
