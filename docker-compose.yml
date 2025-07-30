@@ -41,9 +41,10 @@ services:
     restart: on-failure
 
   client:
-    build: ./frontend
-    args:
-      VITE_API_URL: ${VITE_API_URL:-http://localhost:8001}
+    build: 
+      context: ./frontend
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8001}
     ports:
       - "3000:80"    
     depends_on:
