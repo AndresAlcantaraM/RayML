@@ -46,7 +46,7 @@ services:
       - "3000:80"    
     environment:
       # - VITE_API_URL=http://api_service:8000
-      - VITE_API_URL=http://${AWS_PUBLIC_IP}:8001 
+      - VITE_API_URL=http://52.91.212.251:8001 
       - PUBLIC_IP=${AWS_PUBLIC_IP}
     depends_on:
       - api_service

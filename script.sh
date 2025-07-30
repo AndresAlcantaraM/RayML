@@ -25,7 +25,7 @@ PUBLIC_IP=$(curl http://checkip.amazonaws.com)
 export AWS_PUBLIC_IP=$PUBLIC_IP
 
 git clone https://github.com/AndresAlcantaraM/RayML
-cd RayML/frontend
+cd RayML/
 
 # Crear archivo .env
 cat > .env << EOF
