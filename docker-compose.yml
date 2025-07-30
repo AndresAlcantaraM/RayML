@@ -12,7 +12,7 @@ services:
     networks:
       - ml_network
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://${AWS_PUBLIC_IP}:8000/health || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
       interval: 10s
       timeout: 30s
       retries: 5
