@@ -1,6 +1,12 @@
 import axios from 'axios';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8001';
+
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || import.meta.env.PUBLIC_IP || 'http://localhost:8001';
+
+console.log("API_BASE_URL:", API_BASE_URL);
+console.log("VITE_API_URL:", import.meta.env.VITE_API_URL);
+console.log("PUBLIC_IP:", import.meta.env.PUBLIC_IP);
 
 // Análisis de sentimiento
 export const analyzeSentiment = async (startDate, endDate) => {
