@@ -23,9 +23,11 @@ sudo apt install -y git htop curl
 cd $HOME
 PUBLIC_IP=$(curl http://checkip.amazonaws.com)
 export AWS_PUBLIC_IP=$PUBLIC_IP
+echo 'export AWS_PUBLIC_IP=$AWS_PUBLIC_IP' >> ~/.bashrc
 
 git clone https://github.com/AndresAlcantaraM/RayML
 cd RayML/
+echo 'cd ~/RayML' >> ~/.bashrc
 
 # Crear archivo .env
 cat > .env << EOF
@@ -33,5 +35,15 @@ AWS_DEFAULT_REGION=us-east-1
 AWS_PUBLIC_IP=$AWS_PUBLIC_IP
 VITE_API_URL=http://$AWS_PUBLIC_IP:8001
 EOF
+
+# Poner script de creacion de .env en el .bashrc
+echo 'cat > .env << EOF' >> ~/.bashrc
+echo 'AWS_DEFAULT_REGION=us-east-1' >> ~/.bashrc
+echo 'AWS_PUBLIC_IP=$AWS_PUBLIC_IP' >> ~/.bashrc
+echo 'VITE_API_URL=http://$AWS_PUBLIC_IP:8001' >> ~/.bashrc
+echo 'EOF' >> ~/.bashrc
+
+# Poner script de docker-compose en el .bashrc
+echo 'docker-compose up -d' >> ~/.bashrc
 
 sudo docker-compose up -d
