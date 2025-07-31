@@ -11,10 +11,8 @@ O bien puedes usar la interfaz web de AWS para crear los recursos necesarios.
 ## 2. Crear Key Pair para SSH 
 
 ```bash
-# Crear un key pair
 aws ec2 create-key-pair --key-name ml-app-key --query 'KeyMaterial' --output text > ml-app-key.pem
 
-# Cambiar permisos del archivo de clave
 chmod 400 ml-app-key.pem
 ```
 
@@ -26,7 +24,7 @@ aws ec2 create-security-group \
     --group-name ml-app-security-group \
     --description "Security group for ML Docker app"
 
-# Obtener el security group ID (guarda este valor)
+# Obtener el security group ID 
 aws ec2 describe-security-groups \
     --group-names ml-app-security-group \
     --query 'SecurityGroups[0].GroupId' \
@@ -35,7 +33,6 @@ aws ec2 describe-security-groups \
 
 ### Configurar reglas del Security Group
 ```bash
-# Reemplaza <SECURITY-GROUP-ID> con el ID obtenido arriba
 SECURITY_GROUP_ID="<SECURITY-GROUP-ID>"
 
 # SSH (puerto 22) (La habilito para poder conectarme por SSH en caso de que necesite hacer cambios o actualizaciones)
@@ -151,7 +148,6 @@ echo 'docker-compose up -d' >> ~/.bashrc
 sudo docker-compose up -d
 ```
 
-<!-- Crea nota: -->
 Ese script si lo debes poner en el textarea de "User data" al momento de crear la instancia EC2. Esto hará que se ejecute automáticamente al iniciar la instancia. 
 
 
