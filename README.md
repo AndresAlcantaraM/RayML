@@ -7,10 +7,6 @@ Los siguentes comandos asumen que tienes configurado AWS CLI con las credenciale
 O bien puedes usar la interfaz web de AWS para crear los recursos necesarios.
 
 ```bash
-
-## 2. Crear Key Pair para SSH 
-
-```bash
 aws ec2 create-key-pair --key-name ml-app-key --query 'KeyMaterial' --output text > ml-app-key.pem
 
 chmod 400 ml-app-key.pem
